@@ -1,0 +1,353 @@
+html_content = """<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NETWARCON | The September Event</title>
+    <style>
+        :root {
+            --bg-color: #050505;
+            --text-color: #e0e0e0;
+            --accent-primary: #00ff33; /* Hacker green */
+            --accent-secondary: #ff003c; /* Red team / disruption */
+            --border-color: #333333;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Courier New', Courier, monospace; /* Cyber-brutalist monospace */
+            line-height: 1.6;
+            padding: 2vw 5vw;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        ::selection {
+            background-color: var(--accent-primary);
+            color: #000;
+        }
+
+        h1, h2, h3, h4 {
+            font-weight: normal;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        h1 {
+            color: var(--text-color);
+            font-size: clamp(2rem, 5vw, 4rem);
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px var(--accent-secondary), -2px -2px var(--accent-primary);
+        }
+
+        h2 {
+            color: var(--accent-primary);
+            font-size: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            margin-top: 40px;
+            display: inline-block;
+            width: 100%;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        a {
+            color: var(--accent-primary);
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: var(--bg-color);
+            background-color: var(--accent-primary);
+        }
+
+        /* --- LAYOUT BLOCKS --- */
+        
+        header.hero {
+            border: 2px solid var(--border-color);
+            padding: 40px 20px;
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                #111 2px,
+                #111 4px
+            );
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--accent-primary);
+            margin-bottom: 30px;
+        }
+
+        .video-embed {
+            border: 1px solid var(--border-color);
+            background-color: #0a0a0a;
+            max-width: 800px;
+            aspect-ratio: 16 / 9;
+            margin: 0 auto 30px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #555;
+            text-transform: uppercase;
+        }
+
+        .cta-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: transparent;
+            color: var(--accent-primary);
+            border: 2px solid var(--accent-primary);
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn:hover {
+            background-color: var(--accent-primary);
+            color: var(--bg-color);
+            box-shadow: 0 0 15px var(--accent-primary);
+        }
+
+        .btn.secondary {
+            border-color: var(--text-color);
+            color: var(--text-color);
+        }
+        
+        .btn.secondary:hover {
+            background-color: var(--text-color);
+            color: var(--bg-color);
+            box-shadow: none;
+        }
+
+        /* --- CONTENT SECTIONS --- */
+
+        section {
+            border-left: 4px solid var(--border-color);
+            padding-left: 20px;
+            margin-bottom: 60px;
+        }
+
+        section:hover {
+            border-left-color: var(--accent-primary);
+        }
+
+        ul {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        ul li {
+            margin-bottom: 0.8rem;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        ul li::before {
+            content: ">";
+            color: var(--accent-primary);
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        /* --- TABLE ARCHITECTURE --- */
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0 40px 0;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        th {
+            background-color: #1a1a1a;
+            color: var(--accent-primary);
+            font-weight: normal;
+        }
+
+        tr:hover td {
+            background-color: #111;
+        }
+
+        .highlight {
+            color: var(--accent-primary);
+        }
+
+        /* --- UTILITIES --- */
+
+        .blink {
+            animation: blink 1s step-start infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        footer {
+            margin-top: 80px;
+            padding-top: 20px;
+            border-top: 1px dashed var(--border-color);
+            text-align: center;
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .btn { width: 100%; }
+            table, thead, tbody, th, td, tr { display: block; }
+            th { position: absolute; top: -9999px; left: -9999px; }
+            tr { margin-bottom: 15px; border-bottom: 2px solid var(--accent-primary); }
+            td { border: none; border-bottom: 1px solid var(--border-color); position: relative; padding-left: 50%; }
+            td:before { position: absolute; top: 15px; left: 15px; width: 45%; padding-right: 10px; white-space: nowrap; color: var(--accent-primary); }
+            td:nth-of-type(1):before { content: "Role"; }
+            td:nth-of-type(2):before { content: "Designation"; }
+            td:nth-of-type(3):before { content: "Directive"; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="hero">
+        <div style="text-align: left; color: #555; margin-bottom: 20px; font-size: 0.8rem;">
+            SYS.INIT // AUSTIN_TX // SEP_2026
+        </div>
+        <h1>NETWARCON</h1>
+        <div class="hero-subtitle">
+            400 Live Players. Infinite Online Plurs. Welcome to Cyberia<span class="blink">_</span>
+        </div>
+        
+        <div class="video-embed">
+            [ YouTube Embed Placeholder : "You can win The Game" ]
+        </div>
+
+        <div class="cta-container">
+            <a href="#" class="btn">[ SECURE YOUR TICKET ]</a>
+            <a href="#" class="btn secondary">[ JOIN THE DISCORD ]</a>
+        </div>
+    </header>
+
+    <main>
+        <section id="operation">
+            <h2>[01] THE OPERATION</h2>
+            <p><strong>What is going on?</strong></p>
+            <p>This September, 400 live players from diverse backgrounds are converging in Austin, TX for a real-life wargaming and social coordination summit. Accompanied by a potentially infinite number of online participants, players will test the boundaries of Outpost and Outreach in a 21st-century civilian network context.</p>
+            <p>The core question being tested: <em>What do players decide to do?</em></p>
+            
+            <ul>
+                <li><strong>Day 1: Outpost.</strong> Answer the call. Where do you hail from? What is the best of your culture? Why are you on pilgrimage here today? Form your unit, establish your shared beliefs, and build your team identity.</li>
+                <li><strong>Days 2 & 3: Operations.</strong> Engage the mechanics of the game. Propagate your values, execute your strategies, and compete to win across multiple metrics—from most integrated operations to fan favorites.</li>
+            </ul>
+        </section>
+
+        <section id="architecture">
+            <h2>[02] UNIT ARCHITECTURE</h2>
+            <p><strong>The 11-Player Organism</strong></p>
+            <p>Each team consists of 10 IRL players operating on the ground in Austin, plus the critical <strong>11th Player</strong>—the online <span class="highlight">plur</span>. This plural virtual intelligence acts as your collective entity and internal audience.</p>
+            <p>Teams independently allocate their 10 physical players across four distinct operational roles. We provide the template; you decide whether to follow or diverge:</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Role</th>
+                        <th>Designation</th>
+                        <th>Directive</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Offenders</strong></td>
+                        <td>Red Team</td>
+                        <td>Attack, disrupt, and expand operational footprint.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Defenders</strong></td>
+                        <td>Blue Team</td>
+                        <td>Protect assets, secure information, and hold ground.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Coordinators</strong></td>
+                        <td>Internal Operators</td>
+                        <td>Drive cohesion and create density within the team network.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Leaders</strong></td>
+                        <td>The Vanguard</td>
+                        <td>Shoulder the burden. Enable the team to operate autonomously yet collaboratively.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section id="arsenal">
+            <h2>[03] THE ARSENAL</h2>
+            <p><strong>Spice 2.2 Cards</strong></p>
+            <p>To execute operations and engage both the external global audience and your 11th player organism, units will utilize the <strong>Spice 2.2 framework</strong>. Modeled off cutting-edge military research, these action cards dictate the mechanics of the game.</p>
+            <p>Master the cards, learn the game, and optimize your operations to win.</p>
+            <p style="color: #666; font-style: italic;">(Detailed operational parameters to be released.)</p>
+        </section>
+
+        <section id="allies">
+            <h2>[04] ALLIES & INFRASTRUCTURE</h2>
+            <p><strong>The Network</strong></p>
+            <p>You aren't dropping in without support.</p>
+            <ul>
+                <li><strong>John Arquilla:</strong> The co-father of netwar will be delivering an exclusive operational briefing during the event. <em>(Recommended reading: Outpost and Outreach)</em>.</li>
+                <li><strong>Kinta Projects:</strong> Official Sponsor.</li>
+                <li><strong>Fangorn:</strong> Driving the backend infrastructure and logistics.</li>
+                <li><strong>AI:</strong> In our corner.</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>THE GAME IS LIVE. GOOD LUCK OUT THERE.</p>
+        <p style="margin-top: 10px;">
+            <a href="#">TICKETS</a> // <a href="#">DISCORD</a> // <a href="#">YOUTUBE BRIEFING</a>
+        </p>
+        <p style="margin-top: 20px; font-size: 0.7rem;">
+            NETWARCON | AUSTIN, TX | SEPTEMBER 2026
+        </p>
+    </footer>
+
+</body>
+</html>
+"""
+
+with open("netwarcon_launch.html", "w") as f:
+    f.write(html_content)
+    
+print("File written successfully.")
